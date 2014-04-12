@@ -1,29 +1,43 @@
-## Nginx Dockerfile
+# Nginx Dockerfile
 
+This repository contains a **Dockerfile** of [Nginx](http://nginx.org/)
+for [Docker](https://www.docker.io/)'s [trusted build](https://index.docker.io/u/dockerfile/nginx/)
+published to the public [Docker Registry](https://index.docker.io/).
 
-This repository contains **Dockerfile** of [Nginx](http://nginx.org/) for [Docker](https://www.docker.io/)'s [trusted build](https://index.docker.io/u/dockerfile/nginx/) published to the public [Docker Registry](https://index.docker.io/).
-
-
-### Dependencies
+## Dependencies
 
 * [dockerfile/ubuntu](http://dockerfile.github.io/#/ubuntu)
 
-
-### Installation
+## Docker Image Creation
 
 1. Install [Docker](https://www.docker.io/).
+2. Build the image with either
+  1. docker build -t="jonathanmiller/docker-nginx" github.com/jonathanmiller/docker-nginx
+  2. Manually with Git clone
+    1. git clone https://github.com/jonathanmiller/docker-nginx
+    2. cd docker-nginx
+    3. docker build .
 
-2. Download [trusted build](https://index.docker.io/u/dockerfile/nginx/) from public [Docker Registry](https://index.docker.io/): `docker pull dockerfile/nginx`
+## Usage
 
-   (alternatively, you can build an image from Dockerfile: `docker build -t="dockerfile/nginx" github.com/dockerfile/nginx`)
+Basic Execution
 
+```
+docker run -d -p 80:80 jonathanmiller/docker-nginx
+```
 
-### Usage
+With SSL
 
-    docker run -d -p 80:80 dockerfile/nginx
+```
+docker run -d -p 80:80 -p 443:443 jonathanmiller/docker-nginx
+```
 
-#### Attach persistent/shared directories
-
-    docker run -d -p 80:80 -v <sites-enabled-dir>:/etc/nginx/sites-enabled -v <log-dir>:/var/log/nginx dockerfile/nginx
-
-Open `http://<host>` to see the welcome page.
+Attach Log and Server Configuration Volumes
+```
+docker run -d \
+ -p 80:80 \
+ -p 443:443 \
+ -v <log-dir>:/var/log/nginx \
+ -v <sites-enabled-dir>:/servers \
+ jonathanmiller/docker-nginx
+```
