@@ -30,8 +30,7 @@ RUN chmod +x /scripts/*.sh
 
 # Attach volumes.
 # VOLUME /etc/nginx/sites-enabled
-VOLUME /var/log/nginx
-VOLUME /servers
+VOLUME [ "/var/log/nginx" "/servers", "/ssl" ]
 
 # Set working directory.
 WORKDIR /etc/nginx
